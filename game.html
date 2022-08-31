@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf8">
+    <meta name="viewport" content="width=devive-width,
+    initial-scale=1">
+    <title>
+        Canvas
+    </title>
+    <style type="text/css">
+        canvas{
+            background-color: rgb(255, 255, 255);
+
+    }
+    </style>
+    
+</head>
+<body>
+    <canvas id="mycanvas" width="1000" height="1000">
+        Hola tu navegador no funciona
+    </canvas>
+
+    <img id="imagen" src="Ghost.jpg" style="display:none">
+
+    <script type="text/javascript">
+        var cv = null
+        var ctx = null 
+
+        var press = false;
+
+        var super_x = 0;
+        var super_y = 0;   
+        var player1 = null
+        var player2 = null
+        var pared = []
+        var direccion = "right"
+        var speed = 2
+        var score = 0
+        var pause = false
+        var playe = new Image()
+        var apple = new Image()
+        var sonido = new Audio()
+
+        function paint(){
+            window.requestAnimationFrame(paint)
+
+            console.log(player1.x + ", " + player1.y);
+            ctx.fillStyle = "blue";
+            ctx.fillRect(0,0,1000,1000);
+            // ctx.fillStyle = randomColor();
+            // ctx.fillRect(super_x, super_y, 40,40);
+
+            ctx.fillStyle = "white";
+            ctx.fillText("SCORE: "+score,250,20);
+
+            ctx.drawImage(playe, player1.x, player1.y)
+            ctx.drawImage(apple, player2.x, player2.y)
+
+            pared[0].pintar(ctx)
+            pared[1].pintar(ctx)
+            pared[2].pintar(ctx)
+            pared[3].pintar(ctx)
+
+            pared[4].pintar(ctx)
+            pared[5].pintar(ctx)
+            pared[6].pintar(ctx)
+            pared[7].pintar(ctx)
+            pared[8].pintar(ctx)
+            pared[9].pintar(ctx)
+            pared[10].pintar(ctx)
+            pared[11].pintar(ctx)
+            pared[12].pintar(ctx)
+            pared[13].pintar(ctx)
+            pared[14].pintar(ctx)
+            pared[15].pintar(ctx)
+            pared[16].pintar(ctx)
+            pared[17].pintar(ctx)
+            pared[18].pintar(ctx)
+            pared[19].pintar(ctx)
+
+            pared[20].pintar(ctx)
+            pared[21].pintar(ctx)
+            pared[22].pintar(ctx)
+            pared[23].pintar(ctx)
+            pared[24].pintar(ctx)
+            pared[25].pintar(ctx)
+            pared[26].pintar(ctx)
+            pared[27].pintar(ctx)
+            pared[28].pintar(ctx)
+            pared[29].pintar(ctx)
+
+            pared[30].pintar(ctx)
+            pared[31].pintar(ctx)
+            pared[32].pintar(ctx)
+            pared[33].pintar(ctx)
+            pared[34].pintar(ctx)
+            pared[35].pintar(ctx)
+            pared[36].pintar(ctx)
+            pared[37].pintar(ctx)
+            pared[38].pintar(ctx)
+            pared[39].pintar(ctx)
+
+            pared[40].pintar(ctx)
+            pared[41].pintar(ctx)
+            pared[42].pintar(ctx)
+            pared[43].pintar(ctx)
+            pared[44].pintar(ctx)
+            pared[45].pintar(ctx)
+            pared[46].pintar(ctx)
+            pared[47].pintar(ctx)
+            pared[48].pintar(ctx)
+            pared[49].pintar(ctx)
+
+            pared[50].pintar(ctx)
+            pared[51].pintar(ctx)
+            pared[52].pintar(ctx)
+            pared[53].pintar(ctx)
+            pared[54].pintar(ctx)
+            pared[55].pintar(ctx)
+            pared[56].pintar(ctx)
+            pared[57].pintar(ctx)
+            pared[58].pintar(ctx)
+            pared[59].pintar(ctx)
+
+            pared[60].pintar(ctx)
+            pared[61].pintar(ctx)
+            pared[62].pintar(ctx)
+            pared[63].pintar(ctx)
+            pared[64].pintar(ctx)
+            pared[65].pintar(ctx)
+            pared[66].pintar(ctx)
+            pared[67].pintar(ctx)
+            pared[68].pintar(ctx)
+            pared[69].pintar(ctx)
+
+            pared[70].pintar(ctx)
+            pared[71].pintar(ctx)
+            pared[72].pintar(ctx)
+            pared[73].pintar(ctx)
+            pared[74].pintar(ctx)
+            pared[75].pintar(ctx)
+            pared[76].pintar(ctx)
+            pared[77].pintar(ctx)
+            pared[78].pintar(ctx)
+            pared[79].pintar(ctx)
+
+            pared[80].pintar(ctx)
+            pared[81].pintar(ctx)
+            pared[82].pintar(ctx)
+            pared[83].pintar(ctx)
+            pared[84].pintar(ctx)
+            pared[85].pintar(ctx)
+            pared[86].pintar(ctx)
+            pared[87].pintar(ctx)
+            pared[88].pintar(ctx)
+            pared[89].pintar(ctx)
+
+            if(pause){
+                ctx.fillStyle = "rgba(0,0,0,0.5)";
+                ctx.fillRect(0,0,0,500,500);
+
+                ctx.fillStyle = "white"
+                ctx.fillText('P A U S E', 230,230)
+            }else{
+                update()
+            }
+
+            // update()
+            
+        }
+
+        function update(){
+            
+            if(direccion == "up"){
+                player1.y -= speed
+                if(player1.y<0){
+                    player1.y = 800;
+                }
+            }
+    
+            if(direccion == "down"){
+                player1.y += speed
+                if(player1.y>800){
+                    player1.y = 0;
+                }
+            }
+    
+            if(direccion == "left"){
+                player1.x -= speed
+                if(player1.x<0){
+                    player1.x = 1000;
+                }
+            }
+    
+            if(direccion == "right"){
+                player1.x += speed
+                if(player1.x>1000){
+                    player1.x = 0;
+                }
+            }
+            for( var x = 0; x < pared.length; x++){
+                if (player1.se_tocan(pared[x])){
+                    if(direccion == "up"){
+                    player1.y += speed
+                    }
+                    if(direccion == "down"){
+                        player1.y -= speed
+                
+                    }
+
+                    if(direccion == "left"){
+                        player1.x += speed
+                
+                    }
+
+                    if(direccion == "right"){
+                        player1.x -= speed
+                    }
+
+            
+                
+                }
+            }
+            
+
+
+
+            
+
+            if(player1.se_tocan(player2)){
+                player2.x = getRandom(1000)
+                player2.y = getRandom(800)
+                score += 1
+                sonido.play()
+            }
+
+
+            
+
+            // player1.x+=2;  
+
+            // if(player1.x>1000){
+            //     player1.x = 0;
+            // }
+        }
+
+        function Cuadro(x,y,w,h,c){
+            this.x = x;
+            this.y = y
+            this.w = w
+            this.h = h
+            this.c = c
+
+            this.se_tocan = function (target) { 
+                if(this.x < target.x + target.w &&
+                    this.x + this.w > target.x && 
+                    this.y < target.y + target.h && 
+                    this.y + this.h > target.y)
+                    {
+                        return true;	 
+                        console.log("hola")
+                    }  
+            };
+
+            this.pintar = function(ctx){
+                ctx.fillStyle = this.c
+                ctx.fillRect(this.x,this.y,this.w,this.h)
+                ctx.strokeRect(this.x,this.y,this.w,this.h)
+            }
+        }
+
+        window.requestAnimationFrame = (function () {
+            return window.requestAnimationFrame ||
+                window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame ||
+                function (callback) {
+                    window.setTimeout(callback, 17);
+                };
+        }());
+
+        window.addEventListener("load", run(), false)       
+
+        function random(number){
+            return Math.floor(Math.random()*number);
+        }
+
+        function randomColor(){
+            return 'rgba('+random(255)+','+random(255)+','+random(255)+',0.5)';    
+        }
+
+        function getRandom(max){
+            return Math.floor(Math.random()*max)
+        }
+
+        function run(){
+            cv = document.getElementById('mycanvas');
+            ctx = cv.getContext('2d');
+
+            player1 = new Cuadro(0,0,32,32, "red")
+            player2 = new Cuadro(getRandom(1000),getRandom(800), 40, 40, "white")
+
+            pared[0] = new Cuadro(50,50,1000,10,"gray")
+            pared[1] = new Cuadro(1,50,10,800,"gray")
+            pared[2] = new Cuadro(1,850,950,10,"grey")
+            pared[3] = new Cuadro(990,50,10,750 ,"gray")
+
+            pared[4] = new Cuadro(100,1,10,150, "grey")
+            pared[5] = new Cuadro(1,100,50,10, "grey")
+
+            pared[6] = new Cuadro(50,100,10,100, "grey")
+            pared[7] = new Cuadro(50,190,250,10, "grey")
+
+            pared[8] = new Cuadro(150,150,10,50, "grey")
+            pared[9] = new Cuadro(100,100,100,10, "grey")
+
+            pared[10] = new Cuadro(200,100,10,50, "grey")
+            pared[11] = new Cuadro(250,100,10,150, "grey")
+            pared[12] = new Cuadro(300,50,10,100, "grey")
+            pared[13] = new Cuadro(350,50,10,50, "grey")
+
+            pared[14] = new Cuadro(300,140,50,10, "grey")
+
+            pared[15] = new Cuadro(350,140,10,250, "grey")
+            pared[16] = new Cuadro(300,190,10,160, "red")
+
+            pared[17] = new Cuadro(600,50,10,200, "grey")
+
+            pared[18] = new Cuadro(400,100,10,100, "grey")
+            pared[19] = new Cuadro(450,150,10,250, "grey")
+
+            pared[20] = new Cuadro(450,100,150,10, "grey")
+            pared[21] = new Cuadro(400,150,150,10, "grey")
+
+            pared[22] = new Cuadro(650,100,100,10, "grey")
+            pared[23] = new Cuadro(600,150,50,10, "grey")
+
+            pared[24] = new Cuadro(700,100,10,200, "grey")
+            pared[25] = new Cuadro(800,100,10,150, "grey")
+
+            pared[26] = new Cuadro(750,150,100,10, "grey")
+
+            pared[27] = new Cuadro(850,50,10,50, "grey")
+            pared[28] = new Cuadro(900,100,10,50, "grey")
+            pared[29] = new Cuadro(950,150,10,150, "grey")
+
+
+            pared[30] = new Cuadro(850,100,50,10, "grey")
+            pared[31] = new Cuadro(900,150,50,10, "grey")
+            pared[32] = new Cuadro(950,100,50,10, "grey")
+            pared[33] = new Cuadro(850,200,50,10, "grey")
+
+            pared[34] = new Cuadro(650,200,100,10, "red")
+            pared[35] = new Cuadro(500,250,150,10, "grey")
+            pared[36] = new Cuadro(460,300,250,10, "grey")
+            pared[37] = new Cuadro(500,200,50,10, "red")
+            pared[38] = new Cuadro(500,200,10,50, "red")
+            pared[39] = new Cuadro(750,250,100,10, "red")
+
+            pared[40] = new Cuadro(850,150,10,50, "white")
+            pared[41] = new Cuadro(900,200,10,150, "white")
+            pared[42] = new Cuadro(850,300,10,50, "white")
+            pared[43] = new Cuadro(750,250,10,100, "white")
+            pared[44] = new Cuadro(800,350,10,100, "white")
+            pared[45] = new Cuadro(950,400,10,100, "white")
+            pared[46] = new Cuadro(850,400,10,50, "white")
+
+            pared[47] = new Cuadro(800,300,50,10, "red")
+            pared[48] = new Cuadro(850,350,100,10, "red")
+            pared[49] = new Cuadro(850,400,100,10, "red")
+            pared[50] = new Cuadro(700,350,100,10, "red")
+            pared[51] = new Cuadro(760,450,100,10, "red")
+            pared[52] = new Cuadro(950,500,50,10, "red")
+            
+            pared[53] = new Cuadro(50,250,50,10, "grey")
+            pared[54] = new Cuadro(150,250,50,10, "red")
+            pared[55] = new Cuadro(350,250,50,10, "red")
+
+            pared[56] = new Cuadro(1,300,150,10, "red")
+            pared[57] = new Cuadro(200,300,50,10, "red")
+
+            pared[58] = new Cuadro(50,350,50,10, "grey")
+            pared[59] = new Cuadro(100,400,50,10, "grey")
+            pared[60] = new Cuadro(200,350,110,10, "grey")
+
+            pared[61] = new Cuadro(500,350,150,10, "grey")
+            pared[62] = new Cuadro(100,450,100,10, "red")
+
+            pared[63] = new Cuadro(100,250,10,50, "black")
+            pared[64] = new Cuadro(200,250,10,250, "red")
+            pared[65] = new Cuadro(150,300,10,50, "red")
+
+            pared[66] = new Cuadro(400,250,10,110, "grey")
+            pared[67] = new Cuadro(100,350,10,150, "black")
+            pared[68] = new Cuadro(50,400,10,200, "black")
+            pared[69] = new Cuadro(150,500,10,50, "cyan")
+
+            pared[70] = new Cuadro(1,600,60,10, "cyan")
+            pared[71] = new Cuadro(50,550,110,10, "cyan")
+            pared[72] = new Cuadro(200,500,150,10, "cyan")
+            pared[73] = new Cuadro(250,450,50,10, "cyan")
+            pared[74] = new Cuadro(250,400,160,10, "cyan")
+            pared[75] = new Cuadro(350,450,10,60, "cyan")
+            pared[76] = new Cuadro(250,400,10,50, "cyan")
+            pared[77] = new Cuadro(250,500,10,50, "cyan")
+            pared[78] = new Cuadro(200,550,10,100, "cyan")
+            pared[79] = new Cuadro(400,400,10,150, "grey")
+
+            pared[80] = new Cuadro(500,350,10,100, "grey")
+            pared[81] = new Cuadro(450,450,10,100, "grey")
+            pared[82] = new Cuadro(550,400,10,250, "grey")
+            pared[83] = new Cuadro(500,550,10,50, "grey")
+
+
+
+            playe.src = "fantasma.png"
+            apple.src = "manzana.png"
+            sonido.src = "mario-bros vida.mp3"
+
+
+            paint()
+        }
+
+        document.addEventListener('keydown',function(e){
+            console.log(e);
+
+            if(e.key == "w" || e.key == "ArrowUp"){
+                // super_y -= 5;
+                direccion = "up"
+            }
+
+            if(e.key == "s" || e.key == "ArrowDown"){
+                // super_y += 5;
+                direccion = "down"
+            }
+
+            if(e.key == "a" || e.key == "ArrowLeft"){
+                // super_x -= 5;
+                direccion = "left"
+            }
+
+            if(e.key == "d" || e.key == "ArrowRight"){
+                // super_x += 5;
+                direccion = "right"
+            }
+            if(e.keyCode == 32){
+                pause = (pause)?false:true
+            }
+            // paint();
+        })
+
+    </script>
+
+</body>
+</html>
